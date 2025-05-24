@@ -9,16 +9,40 @@ import { DialogClose, DialogDescription, DialogTitle } from '@radix-ui/react-dia
 import { SelectContent, SelectTrigger, Select, SelectValue, SelectItem } from '@/components/ui/select'
 import classNames from "classnames"
 import { Progress } from '@/components/ui/progress'
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData, useParams } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
+import { CadernoLoader } from '../loaders/cadernoLoader'
+
+// Definindo os tipos
+interface Materia {
+  this_materia_id: string;
+  nome: string;
+  // adicione outros campos se necessário (dificuldade, progresso, etc.)
+}
+
+interface LoaderData {
+  materias: Materia[];
+  caderno?: {
+    this_caderno_id: string;
+    nome: string;
+    descricao?: string;
+    color: string;
+    user_id: string;
+    materias: Materia[];
+  };
+}
 
 export function Dashboard() {
+ 
+  const { caderno } = useLoaderData() as LoaderData;
+  const materias = caderno.materias || [];
+
   return (
     <div className='dark:bg-zinc-900'>
       <div className='p-1 max-w-3xl mx-auto space-y-4 dark:bg-zinc-900'>
         <div className='flex items-center justify-between'>
           <form className='flex items-center gap-2'>
-            <Input name='id' placeholder='Procurar Tópico' className='w-auto dark:text-white'></Input>
+            <Input name='id' placeholder='Procurar Matéria' className='w-auto dark:text-white'></Input>
             <Button type='submit' variant='secondary'>
               <Search className='w-4 h-4'></Search>
             </Button>
@@ -27,7 +51,7 @@ export function Dashboard() {
           <Dialog>
             <DialogTrigger>
               <Button className='dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-600'>
-                <h1 className="">Criar Tópico</h1>
+                <h1 className="">Criar Matéria</h1>
                 <PlusCircle className='ml-2 h-[1.2rem] w-[1.2rem]'></PlusCircle>
               </Button>
             </DialogTrigger>
@@ -35,7 +59,7 @@ export function Dashboard() {
             <DialogContent className='dark:text-white'>
               <DialogHeader>
                 <DialogTitle><h1>Novo Tópico</h1></DialogTitle>
-                <DialogDescription>Crie um novo tópico para esta Matéria.</DialogDescription>
+                <DialogDescription>Crie um nova Matéria.</DialogDescription>
               </DialogHeader >
 
               <form action='' className='space-y-6'>
@@ -50,9 +74,9 @@ export function Dashboard() {
                       <SelectValue placeholder="Escolha a dificuldade deste tópico..." />
                     </SelectTrigger>
                     <SelectContent position="popper">
-                      <SelectItem value="next"> Fácil 👌 </SelectItem>
-                      <SelectItem value="sveltekit">Mediana 🤔</SelectItem>
-                      <SelectItem value="astro">Desafiadora 🔥</SelectItem>
+                      <SelectItem value="facil"> Fácil 👌 </SelectItem>
+                      <SelectItem value="mediana">Mediana 🤔</SelectItem>
+                      <SelectItem value="desafiadora">Desafiadora 🔥</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -66,39 +90,57 @@ export function Dashboard() {
             </DialogContent>
           </Dialog>
         </div>
+
         <div className='border dark:border-zinc-800 rounded-lg'>
           <Table>
             <TableHeader className='select-none'>
-              <TableHead>Tópicos</TableHead>
+              <TableHead>Matéria</TableHead>
               <TableHead>Dificuldade</TableHead>
               <TableHead>Progresso</TableHead>
             </TableHeader>
             <TableBody>
-              {Array.from({ length: 10 }).map((_, i) => {
-                const rowClasses = classNames('dark:text-zinc-200 border-none select-none', {
-                  'dark:bg-zinc-950': i % 2 === 0,
-                }, {'bg-zinc-100': i % 2 === 0});
+              {materias && materias.length > 0 ? (
+                materias.map((materias, i) => {
+                  const rowClasses = classNames('dark:text-zinc-200 border-none select-none', {
+                    'dark:bg-zinc-950': i % 2 === 0,
+                  }, {'bg-zinc-100': i % 2 === 0});
 
-                return (
-                  <TableRow className={rowClasses} key={i}>
-                    <TableCell>
-                      <Link to="/user-dashboard/quiz" className="flex items-center h-full w-full">
-                        Tópico {i}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <Link to="/user-dashboard/quiz" className="flex items-center h-full w-full">
-                        <Badge variant="destructive">Desafiadora</Badge>
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <Link to="/user-dashboard/quiz" className="flex items-center h-full w-full">
-                        <Progress value={40} />
-                      </Link>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                  return (
+                    <TableRow className={rowClasses} key={materias.this_materia_id}>
+                      <TableCell>
+                        <Link to={`/caderno/${caderno?.this_caderno_id}/materia/${materias.this_materia_id}/quiz`} className="flex items-center h-full w-full">
+                          {materias.nome}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link to={`/caderno/${caderno?.this_caderno_id}/materia/${materias.this_materia_id}/quiz`} className="flex items-center h-full w-full">
+                          {/* Como não temos dificuldade na API, você pode adicionar um campo ou usar um valor padrão */}
+                          <Badge variant="outline">A definir</Badge>
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Link to={`/caderno/${caderno?.this_caderno_id}/materia/${materias.this_materia_id}/quiz`} className="flex items-center h-full w-full">
+                          {/* Como não temos progresso na API, você pode adicionar um campo ou usar um valor padrão */}
+                          <Progress value={0} />
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
+                    {caderno ? (
+                      <>
+                        <p className="text-lg font-semibold mb-2">Nenhuma matéria encontrada</p>
+                        <p>Crie sua primeira matéria para o caderno "{caderno.nome}"</p>
+                      </>
+                    ) : (
+                      <p>Carregando matérias...</p>
+                    )}
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>
@@ -106,5 +148,3 @@ export function Dashboard() {
     </div>
   )
 }
-
-

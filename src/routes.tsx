@@ -3,6 +3,7 @@ import { SignIn } from './screens/signin.tsx';
 import { Dashboard } from './screens/Dashboard.tsx';
 import { UserDashboard } from './screens/UserDashboard.tsx';
 import { loader as notebookLoader } from './loaders/notebookLoader';
+import { CadernoLoader} from './loaders/cadernoLoader.tsx';
 import {UserSettings} from './screens/UserSettings.tsx';
 import Pricing from './screens/Pricing.tsx';
 import { UserQuestionExtractor } from './screens/UserQuestionExtractor.tsx';
@@ -16,7 +17,7 @@ export const router = createHashRouter(
             
             <Route path="/user-dashboard" element={<Layout/>}>
              <Route index element={<UserDashboard />} loader={notebookLoader}/>
-             <Route path="/user-dashboard/dashboard" element={<Dashboard />}/>
+             <Route path="/user-dashboard/caderno/:id" element={<Dashboard />} loader={CadernoLoader}/>
              <Route path="/user-dashboard/pricing" element={<Pricing/>}/>
              <Route path="/user-dashboard/user-question-extractor" element={<UserQuestionExtractor/>}/>
              <Route path="/user-dashboard/quiz" element={<Quiz />}/>

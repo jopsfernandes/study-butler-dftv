@@ -2,7 +2,7 @@ import NotebookFormStudyButler from '@/components/studybutlercomponents/Notebook
 import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
 import BusinessCase from '@/assets/briefcase-business-case-svgrepo-com.js';
-import { useLoaderData, useRevalidator } from 'react-router-dom';
+import { Link, useLoaderData, useRevalidator } from 'react-router-dom';
 import axios from 'axios';
 import { Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -32,6 +32,7 @@ export function UserDashboard() {
           title: "Sucesso!",
           description: response.data.message,
         });
+        
         revalidate();
       }
     } catch (error: unknown) {
@@ -63,9 +64,10 @@ export function UserDashboard() {
           <h2 className="text-2xl font-bold mb-4">Seus Cadernos</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {cadernos.map((caderno: Notebook) => (
-              <div 
+             
+              <Link to={`/user-dashboard/caderno/${caderno.this_caderno_id}`}
                 key={caderno.this_caderno_id} 
-                className="p-6 border dark:border-zinc-800 rounded-lg transition-all duration-200 hover:scale-105 relative group"
+                className="p-6 pt-8 pb-12 border dark:border-zinc-800 rounded-lg transition-all duration-200 hover:scale-105 relative group"
                 style={{ 
                   backgroundColor: caderno.color,
                   color: isLightColor(caderno.color) ? '#000' : '#fff'
@@ -76,16 +78,14 @@ export function UserDashboard() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-2 right-2 hover:bg-red-500/20"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-2 right-2 hover:bg-red-500/20"
                     onClick={() => handleDelete(caderno.this_caderno_id)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
-                {caderno.descricao && (
-                  <p className="text-sm mt-2 opacity-80">{caderno.descricao}</p>
-                )}
-              </div>
+                
+              </Link>
             ))}
           </div>
           <div className="mt-4">
