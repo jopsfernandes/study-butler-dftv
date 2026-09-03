@@ -1,9 +1,9 @@
 import { createHashRouter, createRoutesFromElements, Route } from 'react-router-dom'
 import { SignIn } from './screens/signin.tsx';
-import { Dashboard } from './screens/Dashboard.tsx';
+import { SubjectPanel } from './screens/SubjectPanel.tsx';
 import { UserDashboard } from './screens/UserDashboard.tsx';
-import { loader as notebookLoader } from './loaders/notebookLoader';
-import { CadernoLoader} from './loaders/cadernoLoader.tsx';
+import { Backpackloader} from './loaders/backpackNotebookLoader.ts';
+import { SubjectLoader} from './loaders/subjectLoader';
 import {UserSettings} from './screens/UserSettings.tsx';
 import Pricing from './screens/Pricing.tsx';
 import { UserQuestionExtractor } from './screens/UserQuestionExtractor.tsx';
@@ -15,12 +15,12 @@ export const router = createHashRouter(
         <>
             <Route path="/" element={<SignIn />}/>
             
-            <Route path="/user-dashboard" element={<Layout/>}>
-             <Route index element={<UserDashboard />} loader={notebookLoader}/>
-             <Route path="/user-dashboard/caderno/:id" element={<Dashboard />} loader={CadernoLoader}/>
-             <Route path="/user-dashboard/pricing" element={<Pricing/>}/>
-             <Route path="/user-dashboard/user-question-extractor" element={<UserQuestionExtractor/>}/>
-             <Route path="/user-dashboard/quiz" element={<Quiz />}/>
+            <Route path="/backpack" element={<Layout/>}>
+             <Route index element={<UserDashboard />} loader={Backpackloader}/>
+             <Route path="/backpack/notebooks/:this_notebook_id" element={<SubjectPanel/>} loader={SubjectLoader}/>
+             <Route path="/backpack/pricing" element={<Pricing/>}/>
+             <Route path="/backpack/user-question-extractor" element={<UserQuestionExtractor/>}/>
+             <Route path="/backpack/quiz" element={<Quiz />}/>
             
             </Route>
             
