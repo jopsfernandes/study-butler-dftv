@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { CirclePicker } from "react-color"
 import axios from 'axios';
-import type { ApiError } from '@/loaders/notebookLoader';
+import type { ApiError } from '@/types';
 
 import {
   Form,
@@ -32,11 +32,11 @@ interface NotebookFormProps {
 }
 
 const FormSchema = z.object({
-  nome: z.string().min(6, {
+  name: z.string().min(6, {
     message: "O nome da matéria deve ter no mínimo 6 caracteres."
   }),
   color: z.string().regex(/^#([0-9A-F]{3}){1,2}$/i, "Insira uma cor válida"),
-  descricao: z.string().optional()
+  description: z.string().optional()
 })
 
 const colors = [
@@ -52,7 +52,7 @@ const colors = [
 export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { nome: "", color: "#fff", descricao: "" },
+    defaultValues: { name: "", color: "#ffff00", description: "" },
   })
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
@@ -68,11 +68,12 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
       });
 
       if (response.status === 201) {
+        
         toast({
           title: "Caderno criado com sucesso!",
           description: (
             <div className="mt-2">
-              <p>Matéria: {values.nome}</p>
+              <p>Matéria: {values.name}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span>Cor:</span>
                 <div className="w-4 h-4 rounded-full" style={{ backgroundColor: values.color }} />
@@ -97,11 +98,11 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
   }
 
   return (
-    <Dialog>
+    <Dialog >
       <DialogTrigger asChild>
         <Button variant="seila" className="transition ease-in-out bg-[#059669] shadow-emerald-500/50 hover:scale-110 duration-300 mt-4">Criar novo caderno</Button>
       </DialogTrigger>
-      <DialogContent className='w-full'>
+      <DialogContent className='max-w-[600px]'>
         <DialogHeader className='mb-3 select-none'>
           <DialogTitle className='dark:text-zinc-300'>Criação de caderno</DialogTitle>
           <DialogDescription>preencha os campos para criar seu caderno.</DialogDescription>
@@ -111,7 +112,7 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
             <FormField 
               control={form.control}
-              name="nome"
+              name="name"
               render={({ field }) => (
                 <FormItem className='w-2/3'>
                   <FormLabel className='dark:text-zinc-200 select-none'>Matéria</FormLabel>
@@ -124,7 +125,7 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
             />
             <FormField 
               control={form.control}
-              name="descricao"
+              name="description"
               render={({ field }) => (
                 <FormItem className='w-2/3'>
                   <FormLabel className='dark:text-zinc-200 select-none'>Descrição (opcional)</FormLabel>
@@ -165,6 +166,7 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
                 variant="seila" 
                 className="transition ease-in-out hover:-translate-y-0.5 hover:scale-110 hover:ml-15 dark:text-zinc-300 duration-300 bg-[#059669]" 
                 type="submit"
+                onClick={()=>{DialogClose}}
               >
                 Criar caderno
               </Button>
