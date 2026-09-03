@@ -100,7 +100,7 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
   return (
     <Dialog >
       <DialogTrigger asChild>
-        <Button variant="seila" className="transition ease-in-out bg-[#059669] shadow-emerald-500/50 hover:scale-110 duration-300 mt-4">Criar novo caderno</Button>
+        <Button variant="default" className="transition ease-in-out bg-[#059669] shadow-emerald-500/50 hover:scale-110 duration-300 mt-4">Criar novo caderno</Button>
       </DialogTrigger>
       <DialogContent className='max-w-[600px]'>
         <DialogHeader className='mb-3 select-none'>
@@ -160,13 +160,12 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
             />
             <DialogFooter className='w-full flex justify-end'>
               <DialogClose asChild>
-                <Button className="dark:text-zinc-200 transition ease-in-out hover:-translate-y-0.5 hover:scale-110 duration-300" variant={'outline'}>Cancelar</Button>
+                <Button type="button" className="dark:text-zinc-200 transition ease-in-out hover:-translate-y-0.5 hover:scale-110 duration-300" variant={'outline'}>Cancelar</Button>
               </DialogClose>
-              <Button 
-                variant="seila" 
-                className="transition ease-in-out hover:-translate-y-0.5 hover:scale-110 hover:ml-15 dark:text-zinc-300 duration-300 bg-[#059669]" 
+              <Button
+                variant="default"
+                className="transition ease-in-out hover:-translate-y-0.5 hover:scale-110 hover:ml-15 dark:text-zinc-300 duration-300 bg-[#059669]"
                 type="submit"
-                onClick={()=>{DialogClose}}
               >
                 Criar caderno
               </Button>
