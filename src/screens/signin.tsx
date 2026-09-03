@@ -37,27 +37,24 @@ export function SignIn() {
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Reset any previous errors
     setAuthError(null)
 
     try {
-      const response = await axios.post("http://localhost:3333/login", values)
+      const response = await axios.post("http://localhost:3333/login", values,{withCredentials: true})
       if (response.status === 200) {
-        // Save user_id in localStorage
         localStorage.setItem('user_id', response.data.user_id);
-        navigate("/user-dashboard")
+        
+        navigate("/backpack")
+        
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        // Handle 401 Unauthorized error
         if (error.response?.status === 401) {
           setAuthError("Credenciais inválidas. Verifique seu email e senha.")
         } else {
-          // Handle other API errors
           setAuthError("Ocorreu um erro ao tentar fazer login. Tente novamente.")
         }
       } else {
-        // Handle unexpected errors
         setAuthError("Ocorreu um erro inesperado. Tente novamente mais tarde.")
       }
     }
