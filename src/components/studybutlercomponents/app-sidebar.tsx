@@ -1,56 +1,28 @@
 "use client"
 
 import * as React from "react"
-import { useState } from "react"
 import {
-  AudioWaveform,
   BadgeCheck,
   Bell,
   BookOpen,
   Bot,
-  ChevronRight,
   ChevronsUpDown,
-  Command,
-  CreditCard,
-  Folder,
-  Forward,
-  Frame,
   GalleryVerticalEnd,
   LogOut,
-  Map,
-  MoreHorizontal,
-  PieChart,
-  Plus,
   Settings2,
   Sparkles,
   SquareTerminal,
-  Trash2,
-  NotebookPencil,
   NotebookPen,
   ScanEye,
   ArrowUpNarrowWide,
   BriefcaseBusiness,
 } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -58,25 +30,18 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Separator } from "@/components/ui/separator"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarInset,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarProvider,
   SidebarGroupContent,
   SidebarRail,
@@ -146,12 +111,7 @@ const data = {
 }
 
 export function AppSidebar({ children }: { children: React.ReactNode }) {
-  const [activeTeam, setActiveTeam] = React.useState(data.teams[0])
-  const [openDropdowns, setOpenDropdowns] = useState<{ [key: string]: boolean }>({})
-
-  const toggleDropdown = (title: string) => {
-    setOpenDropdowns(prev => ({ ...prev, [title]: !prev[title] }))
-  }
+  const [activeTeam] = React.useState(data.teams[0])
 
   return (
     <SidebarProvider>
@@ -186,7 +146,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
             <SidebarGroupContent>
         <SidebarMenu>
             <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="/user-dashboard/dashboard">
+            <Link to="/backpack">
               <SidebarMenuButton asChild>
                 
                   <SidebarMenuButton className="flex items-center">
@@ -199,7 +159,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
             </SidebarMenuItem>
 
             <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="/user-dashboard/user-question-extractor">
+            <Link to="/backpack/user-question-extractor">
               <SidebarMenuButton asChild>
                 
                   <SidebarMenuButton className="flex items-center">
@@ -225,7 +185,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
             </SidebarMenuItem>
 
             <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="/user-dashboard">
+            <Link to="/backpack">
               <SidebarMenuButton asChild>
                 
                   <SidebarMenuButton className="flex items-center">
