@@ -72,7 +72,7 @@ export function UserDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {notebooks.map((notebook: Notebook) => (
 
-              <Link to={`/user-dashboard/caderno/${notebook.this_notebook_id}`}
+              <Link to={`/backpack/notebooks/${notebook.this_notebook_id}`}
                 key={notebook.this_notebook_id}
                 className="p-6 pt-8 pb-12 border dark:border-zinc-800 rounded-lg transition-all duration-200 hover:scale-105 relative group"
                 style={{

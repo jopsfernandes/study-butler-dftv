@@ -25,25 +25,23 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 export function UserSettings() {
   return (
     <div className="flex dark:bg-zinc-900 dark:text-zinc-200 min-h-screen w-full flex-col">
-      <header className="sticky top-0 flex h-16 items-center gap-4  bg-background px-4 dark:bg-zinc-900 dark:text-zinc-200 md:px-6">
+      <header className="sticky top-0 flex h-16 items-center gap-4  bg-background px-4 dark:bg-zinc-900 dark:text-zinc-200 md:px-8">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <Link to="#" className="flex items-center gap-2 text-lg font-semibold md:text-base">
             <GraduationCap className="h-6 w-6" /> <span className="sr-only">StudyButler</span>
           </Link>
-          <Link to="/dashboard" className="text-muted-foreground transition-colors hover:text-foreground">
-            Dashboard
-          </Link>
-          <Link to="/user-dashboard" className="text-muted-foreground transition-colors hover:text-foreground">
+          
+          <Link to="/backpack" className="text-muted-foreground transition-colors hover:text-foreground">
             Mochila
           </Link>
-          <Link to="/user-question-extractor" className="text-muted-foreground transition-colors hover:text-foreground">
+          <Link to="/backpack/user-question-extractor" className="text-muted-foreground transition-colors hover:text-foreground">
             Questões
           </Link>
           <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
             Calendário
           </Link>
-          <Link to="#" className="text-foreground transition-colors hover:text-foreground">
-            Progresso
+          <Link to="/backpack/user-question-extractor" className="text-foreground transition-colors hover:text-foreground ">
+            Extrair questões
           </Link>
         </nav>
         <Sheet>
@@ -118,49 +116,37 @@ export function UserSettings() {
             <Link to="#">Organizacional</Link>
             <Link to="#">Avançado</Link>
           </nav>
-          <div className="grid gap-6">
-            <Card>
+          <div className="grid gap-2">
+            <Card className=''>
               <CardHeader>
-                <CardTitle>Store Name</CardTitle>
+                <CardTitle>Nome de usuário</CardTitle>
                 <CardDescription>
-                  Used to identify your store in the marketplace.
+                  O nome que aparece para você e para outros usuários em sua conta.
                 </CardDescription>
               </CardHeader>
               <CardContent className="">
                 <form className="space-y-3">
-                  <Input placeholder="Store Name" />
-                  <Input placeholder="Store Name" />
+                  <Input placeholder="Nome de usuário" />
+                  
                 </form>
               </CardContent>
-              <CardFooter className="px-6 py-4">
-                <Button>Salvar</Button>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Plugins Directory</CardTitle>
+               <CardHeader>
+                <CardTitle>Email</CardTitle>
                 <CardDescription>
-                  The directory within your project, in which your plugins are located.
+                  E-mail usado para entrar na sua Conta
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <form className="flex flex-col gap-4">
-                  <Input placeholder="Project Name" defaultValue="/content/plugins" />
-                  <div className="flex items-center space-x-2">
-                    <Checkbox id="include" defaultChecked />
-                    <label
-                      htmlFor="include"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Allow administrators to change the directory.
-                    </label>
-                  </div>
+              <CardContent className="">
+                <form className="space-y-2">
+                  <Input placeholder="email" />
+                  
                 </form>
               </CardContent>
               <CardFooter className="px-6 py-4">
                 <Button>Salvar</Button>
               </CardFooter>
             </Card>
+            
           </div>
         </div>
       </main>

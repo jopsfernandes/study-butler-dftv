@@ -102,7 +102,7 @@ export function SignIn() {
                       <div className="flex justify-between items-center">
                         <FormLabel htmlFor="password">Senha</FormLabel>
                         <Link
-                          to="/user-dashboard"
+                          to="/backpack"
                           className="ml-auto inline-block text-sm underline text-zinc-500"
                         >
                           Esqueceu sua senha?
@@ -148,7 +148,7 @@ export function SignIn() {
             </div>
 
             <div className="space-y-3 flex gap-2">
-              <Link className="w-full" to="/user-dashboard" onClick={() => localStorage.setItem('user_id', 'offline_user')}>
+              <Link className="w-full" to="/backpack" onClick={() => localStorage.setItem('user_id', 'offline_user')}>
                 <Button variant="outline" className="mt-3 w-full">
                   Continuar Offline
                 </Button>
