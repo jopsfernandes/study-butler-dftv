@@ -261,7 +261,7 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
                   <DropdownMenuGroup>
                     <DropdownMenuItem>
 
-                      <Link to="/user-dashboard/pricing" className="flex items-center gap-2">
+                      <Link to="/backpack/pricing" className="flex items-center gap-2">
                       <Sparkles/> Upgrade to Pro 
                       </Link>
                       
