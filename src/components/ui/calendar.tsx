@@ -1,72 +1,92 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { DayPicker } from "react-day-picker"
-import { ptBR } from 'date-fns/locale'
+
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
-
-
-
-
-
 
 function Calendar({
   className,
   classNames,
   showOutsideDays = true,
+  components: userComponents,
   ...props
-}: CalendarProps) {
+}: React.ComponentProps<typeof DayPicker>) {
+  const defaultClassNames = {
+    months: "relative flex flex-col sm:flex-row gap-4",
+    month: "w-full",
+    month_caption:
+      "relative mx-10 mb-1 flex h-9 items-center justify-center z-20",
+    caption_label: "text-sm font-medium",
+    nav: "absolute top-0 flex w-full justify-between z-10",
+    button_previous: cn(
+      buttonVariants({ variant: "ghost" }),
+      "size-9 p-0 text-zinc-500/80 hover:text-zinc-950 dark:text-zinc-400/80 dark:hover:text-zinc-50"
+    ),
+    button_next: cn(
+      buttonVariants({ variant: "ghost" }),
+      "size-9 p-0 text-zinc-500/80 hover:text-zinc-950 dark:text-zinc-400/80 dark:hover:text-zinc-50"
+    ),
+    weekday: "size-9 p-0 text-xs font-medium text-zinc-500/80 dark:text-zinc-400/80",
+    day_button:
+      "relative flex size-9 items-center justify-center whitespace-nowrap rounded-md p-0 text-zinc-950 group-[[data-selected]:not(.range-middle)]:[transition-property:color,background-color,border-radius,box-shadow] group-[[data-selected]:not(.range-middle)]:duration-150 group-data-disabled:pointer-events-none focus-visible:z-10 hover:not-in-data-selected:bg-zinc-100 group-data-selected:bg-zinc-900 hover:not-in-data-selected:text-zinc-950 group-data-selected:text-zinc-50 group-data-disabled:text-zinc-950/30 group-data-disabled:line-through group-data-outside:text-zinc-950/30 group-data-selected:group-data-outside:text-zinc-50 outline-none focus-visible:ring-zinc-950/50 focus-visible:ring-[3px] group-[.range-start:not(.range-end)]:rounded-e-none group-[.range-end:not(.range-start)]:rounded-s-none group-[.range-middle]:rounded-none group-[.range-middle]:group-data-selected:bg-zinc-100 group-[.range-middle]:group-data-selected:text-zinc-950 dark:text-zinc-50 dark:hover:not-in-data-selected:bg-zinc-800 dark:group-data-selected:bg-zinc-50 dark:hover:not-in-data-selected:text-zinc-50 dark:group-data-selected:text-zinc-900 dark:group-data-disabled:text-zinc-50/30 dark:group-data-outside:text-zinc-50/30 dark:group-data-selected:group-data-outside:text-zinc-900 dark:focus-visible:ring-zinc-300/50 dark:group-[.range-middle]:group-data-selected:bg-zinc-800 dark:group-[.range-middle]:group-data-selected:text-zinc-50",
+    day: "group size-9 px-0 py-px text-sm",
+    range_start: "range-start",
+    range_end: "range-end",
+    range_middle: "range-middle",
+    today:
+      "*:after:pointer-events-none *:after:absolute *:after:bottom-1 *:after:start-1/2 *:after:z-10 *:after:size-[3px] *:after:-translate-x-1/2 *:after:rounded-full *:after:bg-zinc-900 [&[data-selected]:not(.range-middle)>*]:after:bg-white [&[data-disabled]>*]:after:bg-zinc-950/30 *:after:transition-colors dark:*:after:bg-zinc-50 dark:[&[data-selected]:not(.range-middle)>*]:after:bg-zinc-950 dark:[&[data-disabled]>*]:after:bg-zinc-50/30",
+    outside:
+      "text-zinc-500 data-selected:bg-zinc-100/50 data-selected:text-zinc-500 dark:text-zinc-400 dark:data-selected:bg-zinc-800/50 dark:data-selected:text-zinc-400",
+    hidden: "invisible",
+    week_number: "size-9 p-0 text-xs font-medium text-zinc-500/80 dark:text-zinc-400/80",
+  }
+
+  const mergedClassNames: typeof defaultClassNames = Object.keys(
+    defaultClassNames
+  ).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: classNames?.[key as keyof typeof classNames]
+        ? cn(
+            defaultClassNames[key as keyof typeof defaultClassNames],
+            classNames[key as keyof typeof classNames]
+          )
+        : defaultClassNames[key as keyof typeof defaultClassNames],
+    }),
+    {} as typeof defaultClassNames
+  )
+
+  const defaultComponents = {
+    Chevron: (props: {
+      className?: string
+      size?: number
+      disabled?: boolean
+      orientation?: "left" | "right" | "up" | "down"
+    }) => {
+      if (props.orientation === "left") {
+        return <ChevronLeftIcon size={16} {...props} aria-hidden="true" />
+      }
+      return <ChevronRightIcon size={16} {...props} aria-hidden="true" />
+    },
+  }
+
+  const mergedComponents = {
+    ...defaultComponents,
+    ...userComponents,
+  }
+
   return (
     <DayPicker
-      locale={ptBR}
       showOutsideDays={showOutsideDays}
-      className={cn("p-3", className)}
-      classNames={{
-        months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-        month: "space-y-4",
-        caption: "flex justify-center pt-1 relative items-center",
-        caption_label: "text-sm font-medium",
-        nav: "space-x-1 flex items-center",
-        nav_button: cn(
-          buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
-        ),
-        nav_button_previous: "absolute left-1",
-        nav_button_next: "absolute right-1",
-        table: "w-full border-collapse space-y-1",
-        head_row: "flex",
-        head_cell:
-          "text-zinc-500 rounded-md w-9 font-normal text-[0.8rem] dark:text-zinc-400",
-        row: "flex w-full mt-2",
-        cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-zinc-100/50 [&:has([aria-selected])]:bg-zinc-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected].day-outside)]:bg-zinc-800/50 dark:[&:has([aria-selected])]:bg-zinc-800",
-        day: cn(
-          buttonVariants({ variant: "ghost" }),
-          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
-        ),
-        day_range_end: "day-range-end",
-        day_selected:
-          "bg-zinc-900 text-zinc-50 hover:bg-zinc-900 hover:text-zinc-50 focus:bg-zinc-900 focus:text-zinc-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50 dark:hover:text-zinc-900 dark:focus:bg-zinc-50 dark:focus:text-zinc-900",
-        day_today: "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-50",
-        day_outside:
-          "day-outside text-zinc-500 opacity-50 aria-selected:bg-zinc-100/50 aria-selected:text-zinc-500 aria-selected:opacity-30 dark:text-zinc-400 dark:aria-selected:bg-zinc-800/50 dark:aria-selected:text-zinc-400",
-        day_disabled: "text-zinc-500 opacity-50 dark:text-zinc-400",
-        day_range_middle:
-          "aria-selected:bg-zinc-100 aria-selected:text-zinc-900 dark:aria-selected:bg-zinc-800 dark:aria-selected:text-zinc-50",
-        day_hidden: "invisible",
-        ...classNames,
-      }}
-      components={{
-        IconLeft: () => <ChevronLeft className="h-4 w-4" />,
-        IconRight: () => <ChevronRight className="h-4 w-4" />,
-      }}
+      className={cn("w-fit", className)}
+      classNames={mergedClassNames}
+      components={mergedComponents}
       {...props}
     />
   )
 }
-Calendar.displayName = "Calendar"
 
 export { Calendar }
