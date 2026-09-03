@@ -9,9 +9,8 @@ import { DialogClose, DialogDescription, DialogTitle } from '@radix-ui/react-dia
 import { SelectContent, SelectTrigger, Select, SelectValue, SelectItem } from '@/components/ui/select'
 import classNames from "classnames"
 import { Progress } from '@/components/ui/progress'
-import { Link, useLoaderData, useParams } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
 import { Badge } from '@/components/ui/badge'
-import { subjectsLoader } from '../loaders/subjectLoader'
 
 // Definindo os tipos
 interface Subject {
