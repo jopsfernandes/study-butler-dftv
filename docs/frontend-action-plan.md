@@ -1,15 +1,18 @@
 # Plano de execução — Correção do frontend StudyButler
 
-## Status (atualizado em 2026-09-03)
+## Status (atualizado em 2026-09-04)
 
-- **Fase 1 — Destravar o build: concluída e verificada.** 11 commits na branch
-  `fix/frontend-unlock-build`, PR aberto em
-  https://github.com/jopsfernandes/study-butler-dftv/pull/1 (ainda não
-  mergeado). `npx tsc --noEmit` limpo, `npm run build` completo, e o fluxo
-  manual (login → dashboard lista cadernos reais → criar → cancelar não
-  envia o form → deletar atualiza a lista) verificado via Playwright contra
-  o backend real.
-- **Fases 2, 3 e 4:** ainda não iniciadas.
+- **Fase 1 — Destravar o build: ✅ concluída, verificada e mergeada.**
+  Commits na branch `fix/frontend-unlock-build`, PRs
+  https://github.com/jopsfernandes/study-butler-dftv/pull/1,
+  https://github.com/jopsfernandes/study-butler-dftv/pull/2 e
+  https://github.com/jopsfernandes/study-butler-dftv/pull/3, todos
+  mergeados em `main`. `npx tsc --noEmit` limpo, `npm run build` completo,
+  e o fluxo manual (login → dashboard lista cadernos reais → criar →
+  cancelar não envia o form → deletar atualiza a lista) verificado via
+  Playwright contra o backend real.
+- **Fase 2 — Arquitetura: iniciando agora.**
+- **Fases 3 e 4:** ainda não iniciadas.
 - **Achados fora do escopo deste plano, registrados durante a execução:**
   - O app Electron (não o navegador) crasha ao abrir com
     `TypeError: Cannot read properties of undefined (reading 'isPackaged')`
