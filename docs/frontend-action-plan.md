@@ -11,8 +11,19 @@
   e o fluxo manual (login → dashboard lista cadernos reais → criar →
   cancelar não envia o form → deletar atualiza a lista) verificado via
   Playwright contra o backend real.
-- **Fase 2 — Arquitetura: iniciando agora.**
-- **Fases 3 e 4:** ainda não iniciadas.
+- **Fase 2 — Arquitetura: ✅ concluída e verificada.** 6 commits na branch
+  `fix/frontend-phase2-architecture` (PR ainda não aberto/mergeado):
+  cliente HTTP centralizado em `src/axios.ts` com `VITE_API_URL`, error
+  boundary nas rotas, `.env` removido do índice do git + `.env.example`
+  criado, `SidebarProvider` duplicado removido, `app-sidebar.tsx`
+  limpo (aninhamento de `SidebarMenuButton` corrigido, `navMain` morto
+  removido, dados de usuário reais via `localStorage`), e busca de
+  matérias em `SubjectPanel.tsx` implementada de fato (o diálogo de
+  criação foi removido por não ter endpoint no backend). `npx tsc
+  --noEmit` limpo, `npm run build` completo, `npm run lint` sem
+  warnings novos (os 6 restantes são pré-existentes, cobertos nas Fases
+  3/4).
+- **Fase 3 e 4:** ainda não iniciadas.
 - **Achados fora do escopo deste plano, registrados durante a execução:**
   - O app Electron (não o navegador) crasha ao abrir com
     `TypeError: Cannot read properties of undefined (reading 'isPackaged')`
@@ -57,7 +68,7 @@ Uma auditoria anterior (3 exploradores paralelos, cobrindo rotas/screens/loaders
 
 Durante a execução, o `tsc` revelou erros adicionais não numerados acima (imports não usados, bloqueantes por causa de `noUnusedLocals`/`noUnusedParameters` no `tsconfig.json`, e um import `subjectsLoader` inexistente em `SubjectPanel.tsx`). Todos foram corrigidos como parte da Fase 1.
 
-## Fase 2 — Arquitetura
+## Fase 2 — Arquitetura — ✅ concluída
 
 1. **Centralizar o cliente HTTP** — passar todos os call-sites (`NotebookFormStudyButler.tsx`, `subjectLoader.ts`, `backpackNotebookLoader.ts`, `UserDashboard.tsx`, `signin.tsx`) a usar `src/axios.ts` em vez de `axios` cru + URL hardcoded. Trocar `http://localhost:3333` fixo por `import.meta.env.VITE_API_URL` com fallback local, dentro do próprio `axios.ts`.
 2. **Error boundaries** — adicionar `errorElement` nas rotas de `src/routes.tsx` (pelo menos na raiz) para capturar os `throw new Response(...)` de `subjectLoader.ts` e qualquer erro de render.
