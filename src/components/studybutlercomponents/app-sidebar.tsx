@@ -4,14 +4,11 @@ import * as React from "react"
 import {
   BadgeCheck,
   Bell,
-  BookOpen,
-  Bot,
   ChevronsUpDown,
   GalleryVerticalEnd,
   LogOut,
   Settings2,
   Sparkles,
-  SquareTerminal,
   NotebookPen,
   ScanEye,
   ArrowUpNarrowWide,
@@ -21,7 +18,6 @@ import {
 import {
   Avatar,
   AvatarFallback,
-  AvatarImage,
 } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -48,70 +44,17 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
-// This is sample data.
-const data = {
-  user: {
-    name: "Jops",
-    email: "joaopfernandessantos@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "StudyButler",
-      logo: GalleryVerticalEnd,
-      plan: "Corp",
-    },
-   
-  ],
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  
+
+const team = {
+  name: "StudyButler",
+  logo: GalleryVerticalEnd,
+  plan: "Corp",
 }
 
 export function AppSidebar({ children }: { children: React.ReactNode }) {
-  const [activeTeam] = React.useState(data.teams[0])
+  const userName = localStorage.getItem('user_name') || 'Usuário'
+  const userEmail = localStorage.getItem('user_email') || ''
+  const userInitials = userName.slice(0, 2).toUpperCase()
 
   return (
     <SidebarProvider>
@@ -119,88 +62,68 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-
-                  <SidebarMenuButton
-                    size="lg"
-                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                  >
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                      <SidebarTrigger></SidebarTrigger>
-                    </div>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {activeTeam.name}
-                      </span>
-                      <span className="truncate text-xs">
-                        {activeTeam.plan}
-                      </span>
-                    </div>
-                  </SidebarMenuButton>
-                
+              <SidebarMenuButton
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <SidebarTrigger></SidebarTrigger>
+                </div>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">
+                    {team.name}
+                  </span>
+                  <span className="truncate text-xs">
+                    {team.plan}
+                  </span>
+                </div>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarHeader>
-        
+
         <SidebarContent>
-            <SidebarGroup>
+          <SidebarGroup>
             <SidebarGroupContent>
-        <SidebarMenu>
-            <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="/backpack">
-              <SidebarMenuButton asChild>
-                
-                  <SidebarMenuButton className="flex items-center">
-                    <NotebookPen className="" />
-                    Dashboard
+              <SidebarMenu>
+                <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  <SidebarMenuButton asChild>
+                    <Link to="/backpack" className="flex items-center">
+                      <NotebookPen />
+                      Dashboard
+                    </Link>
                   </SidebarMenuButton>
-              </SidebarMenuButton>
-              </Link>
+                </SidebarMenuItem>
 
-            </SidebarMenuItem>
-
-            <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="/backpack/user-question-extractor">
-              <SidebarMenuButton asChild>
-                
-                  <SidebarMenuButton className="flex items-center">
-                    <ScanEye className="overflow-none" />
-                    Extrair Questões
+                <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  <SidebarMenuButton asChild>
+                    <Link to="/backpack/user-question-extractor" className="flex items-center">
+                      <ScanEye />
+                      Extrair Questões
+                    </Link>
                   </SidebarMenuButton>
-              </SidebarMenuButton>
-              </Link>
+                </SidebarMenuItem>
 
-            </SidebarMenuItem>
-
-            <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="#">
-              <SidebarMenuButton asChild>
-                
-                  <SidebarMenuButton className="flex items-center">
-                    <ArrowUpNarrowWide className="" />
-                    Métricas
+                <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  <SidebarMenuButton asChild>
+                    <Link to="#" className="flex items-center">
+                      <ArrowUpNarrowWide />
+                      Métricas
+                    </Link>
                   </SidebarMenuButton>
-              </SidebarMenuButton>
-              </Link>
+                </SidebarMenuItem>
 
-            </SidebarMenuItem>
-
-            <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground" >
-            <Link to="/backpack">
-              <SidebarMenuButton asChild>
-                
-                  <SidebarMenuButton className="flex items-center">
-                    <BriefcaseBusiness className="" />
-                    Mochila
+                <SidebarMenuItem className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  <SidebarMenuButton asChild>
+                    <Link to="/backpack" className="flex items-center">
+                      <BriefcaseBusiness />
+                      Mochila
+                    </Link>
                   </SidebarMenuButton>
-              </SidebarMenuButton>
-              </Link>
-
-            </SidebarMenuItem>
-          
-        </SidebarMenu>
-      </SidebarGroupContent>
-
-            </SidebarGroup>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         </SidebarContent>
 
         <SidebarFooter>
@@ -213,18 +136,14 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
                   >
                     <Avatar className="h-8 w-8 rounded-lg">
-                      <AvatarImage
-                        src={data.user.avatar}
-                        alt={data.user.name}
-                      />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      <AvatarFallback className="rounded-lg">{userInitials}</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
-                        {data.user.name}
+                        {userName}
                       </span>
                       <span className="truncate text-xs">
-                        {data.user.email}
+                        {userEmail}
                       </span>
                     </div>
                     <ChevronsUpDown className="ml-auto size-4" />
@@ -239,20 +158,16 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage
-                          src={data.user.avatar}
-                          alt={data.user.name}
-                        />
                         <AvatarFallback className="rounded-lg">
-                          CN
+                          {userInitials}
                         </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold">
-                          {data.user.name}
+                          {userName}
                         </span>
                         <span className="truncate text-xs">
-                          {data.user.email}
+                          {userEmail}
                         </span>
                       </div>
                     </div>
@@ -292,9 +207,17 @@ export function AppSidebar({ children }: { children: React.ReactNode }) {
                   <DropdownMenuSeparator />
 
                   <DropdownMenuItem>
-                    <Link to="/" className="flex items-center gap-2">
-                    <LogOut className=""/>
-                    Log out
+                    <Link
+                      to="/"
+                      className="flex items-center gap-2"
+                      onClick={() => {
+                        localStorage.removeItem('user_id');
+                        localStorage.removeItem('user_name');
+                        localStorage.removeItem('user_email');
+                      }}
+                    >
+                      <LogOut />
+                      Log out
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
