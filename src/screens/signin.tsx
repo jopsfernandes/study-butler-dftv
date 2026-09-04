@@ -44,9 +44,10 @@ export function SignIn() {
       const response = await axios.post("/login", values)
       if (response.status === 200) {
         localStorage.setItem('user_id', response.data.user_id);
-        
+        localStorage.setItem('user_name', response.data.user.nome);
+        localStorage.setItem('user_email', response.data.user.email);
+
         navigate("/backpack")
-        
       }
     } catch (error) {
       if (rawAxios.isAxiosError(error)) {
@@ -149,7 +150,15 @@ export function SignIn() {
             </div>
 
             <div className="space-y-3 flex gap-2">
-              <Link className="w-full" to="/backpack" onClick={() => localStorage.setItem('user_id', 'offline_user')}>
+              <Link
+                className="w-full"
+                to="/backpack"
+                onClick={() => {
+                  localStorage.setItem('user_id', 'offline_user');
+                  localStorage.setItem('user_name', 'Usuário offline');
+                  localStorage.setItem('user_email', '');
+                }}
+              >
                 <Button variant="outline" className="mt-3 w-full">
                   Continuar Offline
                 </Button>
