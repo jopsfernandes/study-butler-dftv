@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { CirclePicker } from "react-color"
-import axios from 'axios';
+import axios from '@/axios';
 import type { ApiError } from '@/types';
 
 import {
@@ -62,7 +62,7 @@ export default function NotebookFormStudyButler({ onNotebookCreated }: NotebookF
         throw new Error('User not authenticated');
       }
 
-      const response = await axios.post('http://localhost:3333/notebooks', {
+      const response = await axios.post('/notebooks', {
         ...values,
         user_id
       });

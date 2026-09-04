@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import axios from "axios"
+import rawAxios from "axios"
+import axios from "@/axios"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -40,7 +41,7 @@ export function SignIn() {
     setAuthError(null)
 
     try {
-      const response = await axios.post("http://localhost:3333/login", values,{withCredentials: true})
+      const response = await axios.post("/login", values)
       if (response.status === 200) {
         localStorage.setItem('user_id', response.data.user_id);
         
@@ -48,7 +49,7 @@ export function SignIn() {
         
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      if (rawAxios.isAxiosError(error)) {
         if (error.response?.status === 401) {
           setAuthError("Credenciais inválidas. Verifique seu email e senha.")
         } else {

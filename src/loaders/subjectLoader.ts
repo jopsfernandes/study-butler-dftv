@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '@/axios';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
 interface Subject {
@@ -29,7 +29,7 @@ export async function SubjectLoader({ params }: LoaderFunctionArgs): Promise<Sub
 
   try {
     const response = await axios.get<Notebook>(
-      `http://localhost:3333/notebooks/${this_notebook_id}`
+      `/notebooks/${this_notebook_id}`
     );
     
     console.log('Caderno carregado:', response.data);
