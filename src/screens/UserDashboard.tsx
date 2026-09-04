@@ -3,7 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { toast } from '@/components/ui/use-toast';
 import BusinessCase from '@/assets/briefcase-business-case-svgrepo-com.js';
 import { Link, useLoaderData, useNavigate, useRevalidator } from 'react-router-dom';
-import axios from 'axios';
+import axios from '@/axios';
 import { Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Notebook } from '@/loaders/backpackNotebookLoader';
@@ -29,7 +29,7 @@ export function UserDashboard() {
 
   const handleDelete = async (notebookId: string) => {
     try {
-      const response = await axios.delete(`http://localhost:3333/notebooks/${notebookId}`);
+      const response = await axios.delete(`/notebooks/${notebookId}`);
 
 
       if (response.status === 200) {

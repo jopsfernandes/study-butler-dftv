@@ -1,4 +1,5 @@
-import axios from 'axios';
+import rawAxios from 'axios';
+import axios from '@/axios';
 
 export type Notebook = {
   this_notebook_id: string;
@@ -19,7 +20,7 @@ export async function Backpackloader(): Promise<{ notebooks: Notebook[]; error?:
       };
     }
 
-    const response = await axios.get<Notebook[]>('http://localhost:3333/notebooks', {
+    const response = await axios.get<Notebook[]>('/notebooks', {
       params: { user_id }
     });
 
@@ -28,7 +29,7 @@ export async function Backpackloader(): Promise<{ notebooks: Notebook[]; error?:
     return { notebooks: response.data };
   } catch (error) {
     console.error('Server error:', error);
-    if (axios.isAxiosError(error)) {  
+    if (rawAxios.isAxiosError(error)) {
       return { 
         notebooks: [],
         error: error.response?.data?.message || "Failed to load notebooks from backpack" 
