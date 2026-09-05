@@ -1,4 +1,5 @@
 import axios from '@/axios';
+import { isAxiosError } from 'axios';
 import type { LoaderFunctionArgs } from 'react-router-dom';
 
 interface Subject {
@@ -37,16 +38,20 @@ export async function SubjectLoader({ params }: LoaderFunctionArgs): Promise<Sub
     return {
       notebook: response.data
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Erro ao carregar caderno:', error);
-    
-    if (error.response?.status === 404) {
-      throw new Response('Caderno não encontrado', { status: 404 });
+
+    if (isAxiosError(error)) {
+      if (error.response?.status === 404) {
+        throw new Response('Caderno não encontrado', { status: 404 });
+      }
+
+      throw new Response(
+        error.response?.data?.message || 'Erro ao carregar caderno',
+        { status: error.response?.status || 500 }
+      );
     }
-    
-    throw new Response(
-      error.response?.data?.message || 'Erro ao carregar caderno',
-      { status: error.response?.status || 500 }
-    );
+
+    throw new Response('Erro ao carregar caderno', { status: 500 });
   }
 }
