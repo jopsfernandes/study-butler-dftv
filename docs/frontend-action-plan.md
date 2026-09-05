@@ -23,7 +23,19 @@
   --noEmit` limpo, `npm run build` completo, `npm run lint` sem
   warnings novos (os 6 restantes são pré-existentes, cobertos nas Fases
   3/4).
-- **Fase 3 e 4:** ainda não iniciadas.
+- **Fase 3 — Tooling: ✅ item 1 concluído, item 2 adiado por decisão explícita.**
+  Branch `fix/frontend-phase3-tooling`. Os 6 warnings restantes do
+  `npm run lint` foram zerados: os 5 `react-refresh/only-export-components`
+  em `src/components/ui/*` (padrão vendor do shadcn/ui — componente +
+  variantes `cva` no mesmo arquivo) foram desligados via `overrides` no
+  `.eslintrc.cjs` só para esse diretório; o `catch (error: any)` em
+  `subjectLoader.ts` virou `catch (error: unknown)` com narrowing via
+  `isAxiosError` do pacote `axios`. `npm run lint` limpo (0 warnings),
+  `npx tsc --noEmit` limpo, `npm run build` completo (incluindo
+  electron-builder). O item 2 (avaliar upgrade do toolchain — Vite,
+  ESLint 8→9 flat config) foi reavaliado com o usuário nesta sessão:
+  decisão foi pular por enquanto, mantendo como tarefa futura separada.
+- **Fase 4:** ainda não iniciada.
 - **Achados fora do escopo deste plano, registrados durante a execução:**
   - O app Electron (não o navegador) crasha ao abrir com
     `TypeError: Cannot read properties of undefined (reading 'isPackaged')`
@@ -79,8 +91,8 @@ Durante a execução, o `tsc` revelou erros adicionais não numerados acima (imp
 
 ## Fase 3 — Tooling
 
-1. Rodar `npm run lint` e limpar os 44 warnings atuais (imports/vars não usados) até `--max-warnings 0` passar.
-2. Avaliar upgrade do toolchain (Vite 4→mais recente, ESLint 8→9 flat config) — separar em tarefa própria, não crítico para funcionamento.
+1. **✅** Rodar `npm run lint` e limpar os 44 warnings atuais (imports/vars não usados) até `--max-warnings 0` passar. (Os 44 originais já tinham caído para 6 ao final da Fase 2; esses 6 foram zerados nesta fase.)
+2. **Adiado.** Avaliar upgrade do toolchain (Vite 4→mais recente, ESLint 8→9 flat config) — separar em tarefa própria, não crítico para funcionamento. `npm outdated` foi rodado novamente e confere com a auditoria anterior (ver seção "Dependências"); nenhuma atualização foi aplicada por decisão do usuário.
 
 ## Fase 4 — Qualidade de código e acessibilidade (baixa prioridade, fazer por último)
 
